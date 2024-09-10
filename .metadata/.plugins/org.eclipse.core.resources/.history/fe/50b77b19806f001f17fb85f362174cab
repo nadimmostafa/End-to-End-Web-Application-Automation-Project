@@ -1,0 +1,28 @@
+package com.tutorialsninja.qa.base;
+
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Base {
+
+	public WebDriver driver;
+
+	public void launchBrowser(String browser, String url) {
+
+		if (browser.equalsIgnoreCase("chrome")) {
+			driver = new ChromeDriver();
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			driver = new FirefoxDriver();
+		} else {
+			throw new RuntimeException("Does not support Browser " + browser);
+		}
+
+		driver.manage().window().maximize();
+		driver.get(url);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	}
+}

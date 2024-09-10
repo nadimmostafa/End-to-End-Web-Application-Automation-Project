@@ -1,0 +1,48 @@
+package com.tutorialsninja.qa.testscripts;
+
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+import com.tutorialsninja.qa.pages.HomePage;
+import com.tutorialsninja.qa.pages.SearchResultPage;
+import com.tutorialsninja.qa.utils.ReadTestDataFromProperties;
+
+public class TC003_SearchProduct extends Base {
+	
+	ReadTestDataFromProperties read = new ReadTestDataFromProperties(new Properties());
+	private HomePage homePage = null;
+	private SearchResultPage result = null;
+	@BeforeMethod
+	public void setUp() {
+		Properties testData = read.readTestData();
+		launchBrowser(testData.getProperty("browser-name"),testData.getProperty("application-url"));
+		homePage = new HomePage(driver);
+		result= new SearchResultPage(driver);
+	}
+	@Test(priority=1, description="Searching product with valid Key Name")
+	public void varifySearchwithValidProductName() {
+		homePage.searchProduct("HP");
+		
+		Assert.assertTrue(isDispaled);
+		
+	}
+	
+	@Test(priority=2, description="Searching product with invalid Key Name")
+	public void varifySearchwithInvalidProductName() {
+		driver.findElement(By.name("search")).sendKeys("Honda");
+		driver.findElement(By.xpath("//span[@class='input-group-btn']/button")).click();
+		String actualText = driver.findElement(By.xpath("//p[contains(text(),'There is no product')]")).getText();
+		String exceptedText = "Products meeting the search criteria";
+		Assert.assertNotSame(actualText, exceptedText);
+	}
+	@AfterMethod
+	public void tearDown() {
+		driver.close();
+	}
+}

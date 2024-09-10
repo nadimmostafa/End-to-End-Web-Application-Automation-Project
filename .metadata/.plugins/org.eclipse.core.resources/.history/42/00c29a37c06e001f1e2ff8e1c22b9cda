@@ -1,0 +1,12 @@
+package com.tutorialsninja.qa.utils;
+
+import org.testng.annotations.DataProvider;
+
+public class DataProviderUtils {
+	String excelFile = ".//ExcelTestData//testData.xlsx";
+	String sheet ="Login";
+	@DataProvider(name="excel-data")
+	public Object[][] getTestData(){
+		return new ExcelReadTestDataUtil().readExcelDataInto2DArray(excelFile, sheet);
+	}
+}

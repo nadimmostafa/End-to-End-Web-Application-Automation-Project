@@ -1,0 +1,34 @@
+package com.tutorialsninja.qa.pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LoginPage {
+	
+	public LoginPage(WebDriver driver) {
+		PageFactory.initElements(driver,this);
+	}
+	
+	//locator Objects
+	@FindBy(name="email")
+	private WebElement username;
+	
+	@FindBy(name="passwordo")
+	private WebElement password;
+	
+	@FindBy(css="input[type='submit']")
+	private WebElement loginBtn;
+	
+	
+	//actions methods
+	
+	public void sendUserName(String username) {
+		username.send
+	}
+	
+	public void sendPassword(String password) {
+		
+	}
+}

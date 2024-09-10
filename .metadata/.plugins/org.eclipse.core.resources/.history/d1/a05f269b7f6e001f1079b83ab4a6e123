@@ -1,0 +1,14 @@
+package com.tutorialsninja.qa.utils;
+
+import java.io.File;
+import java.util.Properties;
+
+public class ReadTestDataFromProperties {
+	Properties pro = null;
+	String location = "//src//test/resources//config.properties";
+	public void readTestData() {
+		pro = new Properties();
+		File file = new File(System.getProperty("user.dir")+location);
+
+	}
+}

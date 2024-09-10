@@ -1,0 +1,5 @@
+package com.tutorialsninja.qa.testscripts;
+
+public class TC002_Registration {
+
+}

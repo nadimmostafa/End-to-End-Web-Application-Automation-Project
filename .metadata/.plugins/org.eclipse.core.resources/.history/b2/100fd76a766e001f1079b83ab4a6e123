@@ -1,0 +1,23 @@
+package com.tutorialsninja.qa.base;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Base {
+	public WebDriver driver;
+	
+	public void launchBrowser(String browser) {
+		
+		if(browser.equalsIgnoreCase("chrome")) {
+			driver = new ChromeDriver();
+		}else if(browser.equalsIgnoreCase("firefox")) {
+			driver = new FirefoxDriver();
+		}else {
+			throw new RuntimeException("Does not support Browser "+browser);
+		}
+		
+		driver.manage().window().maximize();
+		driver.get("https://tutorialsninja.com/demo/");
+	}
+}

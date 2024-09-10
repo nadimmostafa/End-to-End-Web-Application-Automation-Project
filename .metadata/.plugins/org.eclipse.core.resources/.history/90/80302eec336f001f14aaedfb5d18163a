@@ -1,0 +1,53 @@
+package com.tutorialsninja.qa.testscripts;
+
+import java.util.Properties;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+import com.tutorialsninja.qa.pages.HomePage;
+import com.tutorialsninja.qa.pages.RegSuccessHomePage;
+import com.tutorialsninja.qa.pages.RegistrationPage;
+import com.tutorialsninja.qa.utils.GeneratingEmail;
+import com.tutorialsninja.qa.utils.ReadTestDataFromProperties;
+
+public class TC001_Registration extends Base {
+
+	ReadTestDataFromProperties read = new ReadTestDataFromProperties(new Properties());
+	private Properties testData;
+	HomePage homePage = new HomePage(driver);
+	RegistrationPage regPage = new RegistrationPage(driver);
+	GeneratingEmail grtEmail = new GeneratingEmail();
+	RegSuccessHomePage rshpage = new RegSuccessHomePage(driver); 
+
+	@BeforeMethod
+	public void setUp() {
+		testData = read.readTestData();
+		launchBrowser(testData.getProperty("browser-name"), testData.getProperty("application-url"));
+		homePage.initSetUpForRegistration();
+	}
+
+	@Test(priority = 1, description = "Registration an application with mandatory fields")
+	public void verifyRegisterAccountWithMandatoryFields() {
+		regPage.registerFields("Asif", "Iqbal", grtEmail.generatingGmail(), "0173820293", "123456", "123456");
+		String actualText = regPage.getSuccessfulText();
+		String expectedText = "Your Account Has Been Created!";
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@Test(priority = 2, description = "Register with already Existing Email account")
+	public void verifyRegisterWithExistingEmail() {
+		regPage.registerFields("Abrar", "mahmud", "dpython26@gmail.com", "017367533", "654321", "654321");
+		String actualText = rshpage.getSuccessfulText();
+		String expectedText = "Your Account Has Been Created!";
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@AfterMethod
+	public void closeUp() {
+		driver.close();
+	}
+}

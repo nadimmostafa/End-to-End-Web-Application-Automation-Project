@@ -1,0 +1,51 @@
+package com.tutorialsninja.qa.testscripts;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class TC002_Registration {
+	private WebDriver driver=null;
+	
+	@BeforeMethod
+	public void setUp() {
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://tutorialsninja.com/demo/");
+		//click on account
+		driver.findElement(By.xpath("//a[@title='My Account']")).click();
+		//click on Register btn
+		driver.findElement(By.linkText("Register")).click();
+	}
+	@Test(priority=1,description="Registration an application with mandatory fields")
+	public void registerAccountWithMandatoryFields() {
+		// first name
+		driver.findElement(By.name("firstname")).sendKeys("Sakil");
+		//last name
+		driver.findElement(By.name("lastname")).sendKeys("Mahamud");
+		//email
+		driver.findElement(By.name("email")).sendKeys("sakil26@gmail.com");
+		//telephone
+		driver.findElement(By.id("input-telephone")).sendKeys("0178934902");
+		//password
+		driver.findElement(By.id("input-password")).sendKeys("123456");
+		//confirm password
+		driver.findElement(By.id("input-confirm")).sendKeys("123456");
+		
+		//radio
+		driver.findElement(By.xpath("(//input[@name='newsletter'])[2]")).click();
+		
+		//check box
+		driver.findElement(By.xpath("//input[@name='agree']")).click();
+		//submit
+		driver.findElement(By.cssSelector("input[value='Continue']")).submit();
+	}
+	
+	@AfterMethod
+	public void closeUp() {
+		driver.close();
+	}
+}

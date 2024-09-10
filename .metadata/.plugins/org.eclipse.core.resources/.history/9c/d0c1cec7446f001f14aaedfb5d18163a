@@ -1,0 +1,40 @@
+package com.tutorialsninja.qa.listeners;
+
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+
+public class MyListeners implements ITestListener {
+	
+	@Override
+	public void onStart(ITestContext context) {
+		System.out.println("== Start Project Execution ==");
+	}
+	
+	@Override
+	public void onTestStart(ITestResult result) {
+		System.out.println(result.getName()+" test Start");
+	}
+
+	@Override
+	public void onTestSuccess(ITestResult result) {
+		System.out.println(result.getName()+" test is successed");
+	}
+
+	@Override
+	public void onTestFailure(ITestResult result) {
+		System.out.println(result.getName()+" test is Failed");
+		System.out.println(result.getThrowable()); // display test failed reason
+	}
+
+	@Override
+	public void onTestSkipped(ITestResult result) {
+		System.out.println(result.getName()+" test is Skipped");
+	}
+
+	@Override
+	public void onFinish(ITestContext context) {
+		System.out.println("== Project Execution End ==");
+	}
+
+}

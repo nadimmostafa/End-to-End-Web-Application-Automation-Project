@@ -1,0 +1,25 @@
+package com.tutorialsninja.qa.utils;
+
+import java.util.Arrays;
+
+public class Test {
+
+	public static void main(String[] args) {
+		//generatingGmail();
+		String xfile = ".//ExcelTestData//testData.xlsx";
+		String sheet = "Login";
+		new ExcelReadTestDataUtil();
+		String[][] excelData = ExcelReadTestDataUtil.readExcelDataInto2DArray(xfile, sheet);
+		
+		for(int i=0; i<excelData.length;i++) {
+			System.out.println(Arrays.toString(excelData[i]));
+		}
+	}
+	
+	public static void generatingGmail() {
+		long timeMillis = System.currentTimeMillis()/1000;
+		String email = "asif"+timeMillis+"@gmail.com";
+		System.out.println(email);
+	}
+
+}

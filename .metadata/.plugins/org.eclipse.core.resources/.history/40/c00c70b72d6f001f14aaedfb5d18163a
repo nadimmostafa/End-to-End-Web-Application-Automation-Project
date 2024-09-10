@@ -1,0 +1,86 @@
+package com.tutorialsninja.qa.testscripts;
+
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+import com.tutorialsninja.qa.pages.HomePage;
+import com.tutorialsninja.qa.utils.GeneratingEmail;
+import com.tutorialsninja.qa.utils.ReadTestDataFromProperties;
+
+public class TC001_Registration extends Base {
+	
+	ReadTestDataFromProperties read = new ReadTestDataFromProperties(new Properties());
+	private Properties testData;
+	HomePage homePage = new HomePage(driver);
+	
+	
+	@BeforeMethod
+	public void setUp() {
+		testData = read.readTestData();
+		launchBrowser(testData.getProperty("browser-name"),testData.getProperty("application-url"));
+		homePage.initSetUpForRegistration()
+	}
+
+	@Test(priority = 1, description = "Registration an application with mandatory fields")
+	public void verifyRegisterAccountWithMandatoryFields() {
+		// first name
+		driver.findElement(By.name("firstname")).sendKeys("Sakil");
+		// last name
+		driver.findElement(By.name("lastname")).sendKeys("Mahamud");
+		// email
+		driver.findElement(By.name("email")).sendKeys(new GeneratingEmail().generatingGmail());
+		// telephone
+		driver.findElement(By.id("input-telephone")).sendKeys("0178934902");
+		// password
+		driver.findElement(By.id("input-password")).sendKeys("123456");
+		// confirm password
+		driver.findElement(By.id("input-confirm")).sendKeys("123456");
+
+		// radio
+		driver.findElement(By.xpath("(//input[@name='newsletter'])[2]")).click();
+		// check box
+		driver.findElement(By.xpath("//input[@name='agree']")).click();
+		// submit
+		driver.findElement(By.cssSelector("input[value='Continue']")).submit();
+		String actualText = driver.findElement(By.xpath("//div[@id='content']/h1")).getText();
+		String expectedText = "Your Account Has Been Created!";
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@Test(priority = 2, description = "Register with already Existing Email account")
+	public void verifyRegisterWithExistingEmail() {
+		// first name
+		driver.findElement(By.name("firstname")).sendKeys("Sakil");
+		// last name
+		driver.findElement(By.name("lastname")).sendKeys("Mahamud");
+		// email
+		driver.findElement(By.name("email")).sendKeys("dpython26@gmail.com");
+		// telephone
+		driver.findElement(By.id("input-telephone")).sendKeys("0178934902");
+		// password
+		driver.findElement(By.id("input-password")).sendKeys("123456");
+		// confirm password
+		driver.findElement(By.id("input-confirm")).sendKeys("123456");
+
+		// radio
+		driver.findElement(By.xpath("(//input[@name='newsletter'])[2]")).click();
+		// check box
+		driver.findElement(By.xpath("//input[@name='agree']")).click();
+		// submit
+		driver.findElement(By.cssSelector("input[value='Continue']")).submit();
+		String actualText = driver.findElement(By.xpath("//div[@id='content']/h1")).getText();
+		String expectedText = "Your Account Has Been Created!";
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@AfterMethod
+	public void closeUp() {
+		driver.close();
+	}
+}

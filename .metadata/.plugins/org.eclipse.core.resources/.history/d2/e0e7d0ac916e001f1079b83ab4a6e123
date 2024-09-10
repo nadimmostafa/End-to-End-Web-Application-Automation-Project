@@ -1,0 +1,11 @@
+package com.tutorialsninja.qa.utils;
+
+public class ExcelReadTestDataUtil {
+	
+	public String[][] readExcelDataInto2DArray(String excelFile,String sheetName){
+		String testData[][]=null;
+		
+		
+		return testData;
+	}
+}

@@ -1,0 +1,15 @@
+package com.tutorialsninja.qa.utils;
+
+public class TestEmail {
+
+	public static void main(String[] args) {
+		generatingGmail();
+	}
+	
+	public static void generatingGmail() {
+		long timeMillis = System.currentTimeMillis();
+		String email = "asif"+timeMillis+"@gmail.com";
+		System.out.println(email);
+	}
+
+}

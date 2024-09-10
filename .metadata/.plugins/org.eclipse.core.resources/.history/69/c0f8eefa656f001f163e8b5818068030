@@ -1,0 +1,72 @@
+package com.tutorialsninja.qa.testscripts;
+
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+import com.tutorialsninja.qa.pages.HomePage;
+import com.tutorialsninja.qa.pages.LoginPage;
+import com.tutorialsninja.qa.pages.MyAccountPage;
+import com.tutorialsninja.qa.utils.DataProviderUtils;
+import com.tutorialsninja.qa.utils.ReadTestDataFromProperties;
+
+public class TC002_LoginIntoApplication extends Base {
+	
+	ReadTestDataFromProperties read = new ReadTestDataFromProperties(new Properties());
+	Properties testData;
+	LoginPage loginPage;
+	MyAccountPage accountPage;
+	
+	public WebDriver driver = super.driver;
+	
+	@BeforeMethod
+	public void setUp() {
+		testData = read.readTestData();
+		launchBrowser(testData.getProperty("browser-name"),testData.getProperty("application-url"));
+		HomePage homePage = new HomePage(driver);
+		accountPage = new MyAccountPage(driver);
+		loginPage = new LoginPage(driver);
+		homePage.initSetUpForLogin();
+	}
+
+	@Test(priority = 1, 
+			description = "Verify Login with Valid Email and Password",
+			dataProvider = "excel-data",
+			dataProviderClass=DataProviderUtils.class)
+	public void verifyLoginWithValidCredentials(String username, String password, String isValid) throws InterruptedException {
+		
+		boolean isValid2 = Boolean.getBoolean(isValid);
+		if(isValid2) {
+			loginPage.loginApp(username, password);
+			String actualText = accountPage.getValidLoginText();
+			String expectedText = "My Orders";
+			Assert.assertEquals(actualText, expectedText);
+		}else {
+			loginPage.loginApp(username, password);
+			String actualText = accountPage.getInvalidLoginText();
+			String expectedText = "Warning: No match for E-Mail Address and/or Password.";
+			Assert.assertEquals(actualText, expectedText);
+		}	
+		
+	}
+	@Test(priority = 2,
+			description = "Verify login test with invalid email and valid Password"
+			)
+	public void verifyLoginWithInvalidCredentials() {
+		loginPage.loginApp("dpython26@gmail.com", "123457");
+		String actualText = accountPage.getInvalidLoginText();
+		String expectedText = "Warning: No match for E-Mail Address and/or Password.";
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@AfterMethod
+	public void tearDown() {
+		driver.close();
+	}
+
+}

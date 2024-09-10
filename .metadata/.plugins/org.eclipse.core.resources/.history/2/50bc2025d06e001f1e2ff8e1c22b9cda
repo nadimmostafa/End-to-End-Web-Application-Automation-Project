@@ -1,0 +1,32 @@
+package com.tutorialsninja.qa.pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class HomePage {
+	
+	public HomePage(WebDriver driver) {
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(xpath="//a[@title='My Account']")
+	private WebElement myAccountMenu;
+	
+	@FindBy(linkText = "login")
+	private WebElement clickOnLoginBtn;
+	
+	public void clickOnAccountMenu() {
+		myAccountMenu.click();
+	}
+	
+	public void clickOnLoginBtn() {
+		clickOnLoginBtn.clear();
+	}
+	
+	public void initSetUp() {
+		myAccountMenu.click();
+		clickOnLoginBtn.clear();
+	}
+}

@@ -1,0 +1,17 @@
+package com.tutorialsninja.qa.utils;
+
+import java.io.File;
+import java.io.IOException;
+
+import com.aventstack.extentreports.ExtentReports;
+
+public class MyExtentReports {
+	public void generateExtentReport() throws IOException {
+		File f = new File(".//reports//tutorialsninja.html");
+		if (!f.exists()) {
+			f.createNewFile();
+		}
+		ExtentReports eReport = new ExtentReports();
+
+	}
+}

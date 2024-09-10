@@ -1,0 +1,78 @@
+package com.tutorialsninja.qa.listeners;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.tutorialsninja.qa.utils.MyExtentReports;
+
+public class MyListeners implements ITestListener {
+
+	private ExtentReports extentReport = null;
+	MyExtentReports myReport= new MyExtentReports();
+	private ExtentTest etest=null;
+	WebDriver driver =null;
+	
+	@Override
+	public void onStart(ITestContext context) {
+		// we want to generate extent report before execution our application
+		try {
+			extentReport = myReport.generateExtentReport();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onTestStart(ITestResult result) {
+		etest = extentReport.createTest(result.getName());
+		etest.log(Status.INFO,result.getName()+" test is Start");
+	}
+
+	@Override
+	public void onTestSuccess(ITestResult result) {
+		etest.log(Status.PASS, result.getName() + " test is successed");
+	}
+
+	@Override
+	public void onTestFailure(ITestResult result) {
+		try {
+			driver = (WebDriver)result.getTestClass().getRealClass().getDeclaredField("driver").get(result.getInstance());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		String destination = ".//reports//fail.png";
+		try {
+			FileUtils.copyFile(srcFile, new File(destination));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		etest.addScreenCaptureFromPath(destination);
+		etest.log(Status.WARNING, result.getThrowable());
+		etest.log(Status.FAIL,result.getName()+" is Failed");
+	}
+
+	@Override
+	public void onTestSkipped(ITestResult result) {
+		System.out.println(result.getName() + " test is Skipped");
+	}
+
+	@Override
+	public void onFinish(ITestContext context) {
+		System.out.println("== Project Execution End ==");
+	}
+
+}

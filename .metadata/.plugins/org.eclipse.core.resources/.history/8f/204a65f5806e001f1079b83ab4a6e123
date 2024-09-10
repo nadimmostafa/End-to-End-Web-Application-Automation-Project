@@ -1,0 +1,31 @@
+package com.tutorialsninja.qa.base;
+
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.tutorialsninja.qa.utils.ReadTestDataFromProperties;
+
+public class Base {
+	public WebDriver driver;
+	Properties testData=null;
+	ReadTestDataFromProperties r = new ReadTestDataFromProperties(new Properties());
+	public void launchBrowser(String browser) {
+		testData = r.readTestData();
+		
+		if (browser.equalsIgnoreCase("chrome")) {
+			driver = new ChromeDriver();
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			driver = new FirefoxDriver();
+		} else {
+			throw new RuntimeException("Does not support Browser " + browser);
+		}
+
+		driver.manage().window().maximize();
+		driver.get(testData.getProperty("application-url"));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+	}
+}

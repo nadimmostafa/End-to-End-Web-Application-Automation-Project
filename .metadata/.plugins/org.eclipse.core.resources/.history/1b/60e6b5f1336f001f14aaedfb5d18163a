@@ -1,0 +1,100 @@
+package com.tutorialsninja.qa.pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+/**
+ * 
+ */
+public class RegistrationPage {
+
+	public RegistrationPage(WebDriver driver) {
+		PageFactory.initElements(driver, this);
+	}
+	
+	//locator objects
+	@FindBy(name="firstname")
+	private WebElement firstNameField;
+	
+	@FindBy(name="lastname")
+	private WebElement lastNameField;
+	
+	@FindBy(name="email")
+	private WebElement emailField;
+	
+	@FindBy(id="input-telephone")
+	private WebElement telephoneField;
+	
+	@FindBy(id="input-password")
+	private WebElement passwordField;
+	
+	@FindBy(id="input-confirm")
+	private WebElement confirmPasswordField;
+	
+	@FindBy(xpath="(//input[@name='newsletter'])[2]")
+	private WebElement subscriptionRadioField;
+	
+	@FindBy(xpath="//input[@name='agree']")
+	private WebElement termConditionCheckboxField;
+	
+	@FindBy(css="input[value='Continue']")
+	private WebElement registrationSubmitBtn;
+	
+	@FindBy(xpath="//div[@id='content']/h1")
+	private WebElement regSuccessText;
+	
+	//actions methods
+	public void enterFirstname(String firstname) {
+		firstNameField.sendKeys(firstname);
+	}
+	
+	public void enterLastname(String lastname) {
+		firstNameField.sendKeys(lastname);
+	}
+	
+	public void enterEmail(String email) {
+		emailField.sendKeys(email);
+	}
+	public void enterTelephone(String telephone) {
+		telephoneField.sendKeys(telephone);
+	}
+	
+	public void enterPassword(String password) {
+		passwordField.sendKeys(password);
+	}
+	
+	public void enterConfirmPassword(String confirmPassword) {
+		confirmPasswordField.sendKeys(confirmPassword);
+	}
+	
+	public void clickSubscribeRadioBtn() {
+		subscriptionRadioField.click();
+	}
+	
+	public void agreeTermConditions() {
+		termConditionCheckboxField.click();
+	}
+
+	public void submitRegBtn() {
+		registrationSubmitBtn.submit();
+	}
+	
+	public String getSuccessfulText() {
+		return regSuccessText.getText();
+	}
+	
+	public void registerFields(String fname, String lname, String email, String Tel,String pwd,String cpwd) {
+		enterFirstname(fname);
+		enterLastname(lname);
+		enterEmail(email);
+		enterTelephone(Tel);
+		enterPassword(pwd);
+		enterConfirmPassword(cpwd);
+		clickSubscribeRadioBtn();
+		agreeTermConditions();
+		submitRegBtn();
+	}
+	
+}

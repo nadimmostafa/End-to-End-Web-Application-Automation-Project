@@ -1,0 +1,13 @@
+package com.tutorialsninja.qa.utils;
+
+import java.util.Date;
+
+public class ImageFileNameGenerator {
+	
+	public static String generatingFileName() {
+		Date d = new Date();
+		String random[] = d.toString().split(" ");
+		String h = random[3].replace(":", "");
+		return "image" + h + ".png";
+	}
+}

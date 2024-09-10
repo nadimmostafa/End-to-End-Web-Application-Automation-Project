@@ -1,0 +1,43 @@
+package com.tutorialsninja.qa.testscripts;
+
+import java.util.Properties;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+import com.tutorialsninja.qa.pages.HomePage;
+import com.tutorialsninja.qa.pages.SearchResultPage;
+import com.tutorialsninja.qa.utils.ReadTestDataFromProperties;
+
+public class TC003_SearchProduct extends Base {
+	
+	ReadTestDataFromProperties read = new ReadTestDataFromProperties(new Properties());
+	private HomePage homePage = null;
+	private SearchResultPage result = null;
+	@BeforeMethod
+	public void setUp() {
+		Properties testData = read.readTestData();
+		launchBrowser(testData.getProperty("browser-name"),testData.getProperty("application-url"));
+		homePage = new HomePage(driver);
+		result= new SearchResultPage(driver);
+	}
+	
+	@Test(priority=1, description="Searching product with valid Key Name")
+	public void varifySearchwithValidProductName() throws InterruptedException {
+		homePage.searchProduct("HP");
+		Assert.assertTrue(result.isProductDispalyed());
+	}
+	
+	@Test(priority=2, description="Searching product with invalid Key Name")
+	public void varifySearchwithInvalidProductName() {
+		homePage.searchProduct("Honda");
+		Assert.assertFalse(result.isProductDispalyed());
+	}
+	@AfterMethod
+	public void tearDown() {
+		driver.close();
+	}
+}

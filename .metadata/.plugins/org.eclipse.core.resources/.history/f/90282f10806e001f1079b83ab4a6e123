@@ -1,0 +1,26 @@
+package com.tutorialsninja.qa.utils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class ReadTestDataFromProperties {
+	Properties pro = null;
+	String location = "//src//test/resources//config.properties";
+	public ReadTestDataFromProperties(Properties pro){
+		pro = this.pro;
+	}
+	public Properties readTestData() {
+		pro = new Properties();
+		File file = new File(System.getProperty("user.dir") + location);
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			pro.load(fis);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return pro;
+	}
+}

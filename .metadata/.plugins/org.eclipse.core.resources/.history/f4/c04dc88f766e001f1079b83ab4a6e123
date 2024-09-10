@@ -1,0 +1,28 @@
+package com.tutorialsninja.qa.testscripts;
+
+import org.openqa.selenium.By;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+
+public class TC003_SearchProduct extends Base {
+	@BeforeMethod
+	public void setUp() {
+		launchBrowser("chrome");
+	}
+	@Test
+	public void varifySearchwithValidProductName() {
+		driver.findElement(By.name("search")).sendKeys("HP");
+		driver.findElement(By.xpath("//span[@class='input-group-btn']/button")).click();
+		String actualText = driver.findElement(By.xpath("//h2[text()='Products meeting the search criteria']")).getText();
+		String exceptedText = "Products meeting the search criteria";
+		
+	}
+	
+	@AfterMethod
+	public void tearDown() {
+		driver.close();
+	}
+}

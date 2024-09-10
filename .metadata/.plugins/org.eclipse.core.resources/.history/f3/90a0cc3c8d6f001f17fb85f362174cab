@@ -1,0 +1,59 @@
+package com.tutorialsninja.qa.testscripts;
+
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+import com.tutorialsninja.qa.pages.HomePage;
+import com.tutorialsninja.qa.pages.RegSuccessHomePage;
+import com.tutorialsninja.qa.pages.RegistrationPage;
+import com.tutorialsninja.qa.utils.GeneratingEmail;
+import com.tutorialsninja.qa.utils.ReadTestDataFromProperties;
+
+public class TC001_Registration extends Base {
+
+	ReadTestDataFromProperties read = new ReadTestDataFromProperties(new Properties());
+	private Properties testData;
+	HomePage homePage=null;
+	RegistrationPage regPage=null;
+	RegSuccessHomePage rshpage = null;
+	GeneratingEmail grtEmail = new GeneratingEmail();
+	
+	public WebDriver driver= null;
+	
+	@BeforeMethod
+	public void setUp() {
+		testData = read.readTestData();
+		driver = launchBrowser(testData.getProperty("browser-name"), testData.getProperty("application-url"));
+		homePage = new HomePage(driver);
+		regPage = new RegistrationPage(driver);
+		rshpage = new RegSuccessHomePage(driver); 
+		homePage.initSetUpForRegistration();
+	}
+
+	@Test(priority = 1, description = "Registration an application with mandatory fields")
+	public void verifyRegisterAccountWithMandatoryFields() throws InterruptedException {
+		regPage.registerFields("Asif", "Iqbal", grtEmail.generatingGmail(), "0173820293", "123456", "123456");
+		String actualText = rshpage.getSuccessfulText();
+		String expectedText = "Your Account Has Been Created!";
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@Test(priority = 2, description = "Register with already Existing Email account")
+	public void verifyRegisterWithExistingEmail() throws InterruptedException {
+		regPage.registerFields("Abrar", "mahmud", "dpython26@gmail.com", "017367533", "654321", "654321");
+		String actualText = rshpage.getSuccessfulText();
+		String expectedText = "Your Account Has Been Created!";
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@AfterMethod
+	public void closeUp() {
+		driver.close();
+	}
+}

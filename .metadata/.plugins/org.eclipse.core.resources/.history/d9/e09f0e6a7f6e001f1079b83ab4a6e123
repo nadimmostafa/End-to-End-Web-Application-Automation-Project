@@ -1,0 +1,10 @@
+package com.tutorialsninja.qa.utils;
+
+import java.util.Properties;
+
+public class ReadTestDataFromProperties {
+	Properties pro = null;
+	public void readTestData() {
+		pro = new Properties();
+	}
+}

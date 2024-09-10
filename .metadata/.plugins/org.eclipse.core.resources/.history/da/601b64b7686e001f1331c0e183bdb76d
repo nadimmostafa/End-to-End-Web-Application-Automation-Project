@@ -1,0 +1,23 @@
+package com.tutorialsninja.qa.testscripts;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tutorialsninja.qa.base.Base;
+
+public class TC003_Search extends Base {
+	@BeforeMethod
+	public void setUp() {
+		launchBrowser("chrome");
+	}
+	@Test
+	public void varifySearchwithValidProduct() {
+		
+	}
+	
+	@AfterMethod
+	public void tearDown() {
+		driver.close();
+	}
+}

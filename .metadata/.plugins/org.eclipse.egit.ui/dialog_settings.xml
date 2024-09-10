@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="CommitDialog.authorValues">
+		<item value="Nadim mostafa &lt;nadimmostafa26@gmail.com&gt;"/>
+	</list>
+	<list key="CommitDialog.committerValues">
+		<item value="Nadim mostafa &lt;nadimmostafa26@gmail.com&gt;"/>
+	</list>
+	<section name="org.eclipse.egit.ui.internal.staging.StagingView">
+		<item key="MAIN_SASH_FORM_ORIENTATION_VERTICAL" value="false"/>
+		<item key="HORIZONTAL_SASH_FORM_WEIGHT" value="500,500"/>
+		<item key="STAGING_SASH_FORM_WEIGHT" value="500,500"/>
+		<item key="sortItemState" value="false"/>
+	</section>
+	<section name="GitCommitMessageComponent">
+		<list key="G:\02. Automation Testing\Selenium Projects\Hybrid-FrameworkTestNGPOMPageFactoryExtentReports\.git">
+			<item value="false"/>
+			<item value="Nadim mostafa &lt;nadimmostafa26@gmail.com&gt;"/>
+			<item value="nbhb"/>
+			<item value="Nadim mostafa &lt;nadimmostafa26@gmail.com&gt;"/>
+			<item value="9f341a1e771d227c6b9ab923adda863897564fdf"/>
+			<item value="0"/>
+			<item value="false"/>
+			<item value=""/>
+		</list>
+	</section>
+</section>

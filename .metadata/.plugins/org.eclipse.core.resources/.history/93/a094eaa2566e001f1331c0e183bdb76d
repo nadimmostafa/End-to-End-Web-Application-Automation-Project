@@ -1,0 +1,63 @@
+package com.tutorialsninja.qa.testscripts;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class TC002_LoginIntoApplication {
+
+	WebDriver driver = null;
+
+	@BeforeMethod
+	public void setUp() {
+		driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		driver.get("https://tutorialsninja.com/demo/");
+
+		// click on account
+		driver.findElement(By.xpath("//a[@title='My Account']")).click();
+
+		// click on login btn
+		driver.findElement(By.linkText("Login")).click();
+	}
+
+	@Test(priority = 1, description = "Verify Login with Valid Email and Password")
+	public void veriryLoginWithValidCredentials() {
+
+		driver.findElement(By.name("email")).sendKeys("dpython26@gmail.com");
+		driver.findElement(By.name("password")).sendKeys("12345");
+		driver.findElement(By.cssSelector("input[type='submit']")).click();
+
+		String actualText = driver.findElement(By.xpath("//h2[normalize-space()='My Orders']")).getText();
+		String expectedText = "My Orders";
+
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@Test(priority = 2, description = "Verify login test with invalid email and valid Password")
+	public void verifyLoginWithInvalidCredentials() {
+
+		driver.findElement(By.name("email")).sendKeys("dpython426@gmail.com");
+		driver.findElement(By.name("password")).sendKeys("12345");
+		driver.findElement(By.cssSelector("input[type='submit']")).click();
+
+		String actualText = driver
+				.findElement(By.xpath("//div[contains(@class,'alert alert-danger alert-dismissible')]")).getText();
+		String expectedText = "Warning: No match for E-Mail Address and/or Password.";
+
+		Assert.assertEquals(actualText, expectedText);
+	}
+
+	@AfterMethod
+	public void tearDown() {
+		driver.close();
+	}
+
+}

@@ -1,0 +1,40 @@
+package com.tutorialsninja.qa.utils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+public class MyExtentReports {
+	static File f = null;
+	static ExtentReports eReport = null;
+	static FileOutputStream fos = null;
+	static ExtentSparkReporter esReporter = null;
+
+	public static void main(String[] args) throws IOException {
+		generateExtentReport();
+	}
+
+	public static void generateExtentReport() throws IOException {
+		f = new File(".//reports//tutorialsninja.html");
+		if (!f.exists()) {
+			f.createNewFile();
+		}
+
+		eReport = new ExtentReports();
+		esReporter = new ExtentSparkReporter(f);
+
+		// attach sparkReporter with ExtentReport
+		eReport.attachReporter(esReporter);
+
+		// Create Test
+		ExtentTest eTest = eReport.createTest("Login");
+		eTest.assignAuthor("Nadim Mostafa");
+		
+		eReport.flush();
+
+	}
+}

@@ -1,0 +1,12 @@
+package com.tutorialsninja.qa.utils;
+
+import org.testng.annotations.DataProvider;
+
+public class DataProviderUtils {
+	
+	@DataProvider(name="excel-data")
+	public Object[][] getTestData(){
+		
+		return null;
+	}
+}
